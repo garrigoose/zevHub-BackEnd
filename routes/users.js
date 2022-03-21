@@ -11,6 +11,10 @@ const async = require('async');
 //             User
 //=================================
 
+router.get('/', (req, res) => {
+  res.send('users route hit');
+});
+
 router.get('/auth', auth, (req, res) => {
   res.status(200).json({
     _id: req.user._id,

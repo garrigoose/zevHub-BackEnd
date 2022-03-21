@@ -3,7 +3,7 @@ const router = express.Router();
 const { Product } = require('../models/Product');
 const multer = require('multer');
 
-const { auth } = require('../middleware/auth');
+// const { auth } = require('../middleware/auth');
 
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -27,28 +27,40 @@ var upload = multer({ storage: storage }).single('file');
 //             Product
 //=================================
 
-router.post('/uploadImage', auth, (req, res) => {
-  upload(req, res, (err) => {
-    if (err) {
-      return res.json({ success: false, err });
-    }
-    return res.json({
-      success: true,
-      image: res.req.file.path,
-      fileName: res.req.file.filename,
+router.get('/home', (req, res) => {
+  res.send('product route hit');
+});
+
+router.post(
+  '/uploadImage',
+  // auth,
+  (req, res) => {
+    upload(req, res, (err) => {
+      if (err) {
+        return res.json({ success: false, err });
+      }
+      return res.json({
+        success: true,
+        image: res.req.file.path,
+        fileName: res.req.file.filename,
+      });
     });
-  });
-});
+  }
+);
 
-router.post('/uploadProduct', auth, (req, res) => {
-  //save all the data we got from the client into the DB
-  const product = new Product(req.body);
+router.post(
+  '/uploadProduct',
+  // auth,
+  (req, res) => {
+    //save all the data we got from the client into the DB
+    const product = new Product(req.body);
 
-  product.save((err) => {
-    if (err) return res.status(400).json({ success: false, err });
-    return res.status(200).json({ success: true });
-  });
-});
+    product.save((err) => {
+      if (err) return res.status(400).json({ success: false, err });
+      return res.status(200).json({ success: true });
+    });
+  }
+);
 
 router.post('/getProducts', (req, res) => {
   let order = req.body.order ? req.body.order : 'desc';
