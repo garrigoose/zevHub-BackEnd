@@ -2,17 +2,19 @@
   "name": "zevhub-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/garrigoose/zevHub-BackEnd.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "GK",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/garrigoose/zevHub-BackEnd/issues"
   },
@@ -21,6 +23,7 @@
     "async": "^3.2.3",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.2",
+    "colors": "^1.4.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
