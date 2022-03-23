@@ -8,6 +8,8 @@ localStorage = new LocalStorage('./scratch');
 
 const multer = require('multer');
 
+// CLOUDINARY x REACT
+
 // var storage = multer.diskStorage({
 //   destination: (req, file, cb) => {
 //     cb(null, 'uploads/');
