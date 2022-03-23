@@ -8,23 +8,23 @@ localStorage = new LocalStorage('./scratch');
 
 const multer = require('multer');
 
-var storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}_${file.originalname}`);
-  },
-  fileFilter: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    if (ext !== '.jpg' || ext !== '.png') {
-      return cb(res.status(400).end('only jpg, png are allowed'), false);
-    }
-    cb(null, true);
-  },
-});
+// var storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'uploads/');
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, `${Date.now()}_${file.originalname}`);
+//   },
+//   fileFilter: (req, file, cb) => {
+//     const ext = path.extname(file.originalname);
+//     if (ext !== '.jpg' || ext !== '.png') {
+//       return cb(res.status(400).end('only jpg, png are allowed'), false);
+//     }
+//     cb(null, true);
+//   },
+// });
 
-var upload = multer({ storage: storage }).single('file');
+// var upload = multer({ storage: storage }).single('file');
 
 // @description     Get products
 // @route/moethod   GET /api/products
@@ -33,6 +33,15 @@ const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({ user: req.user.id });
 
   res.status(200).json(products);
+});
+
+// @description     Get product
+// @route/moethod   GET /api/products/:id
+// @access          Private
+const getProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+
+  res.status(200).json(product);
 });
 
 // @desc    Set product
@@ -45,29 +54,32 @@ const setProduct = asyncHandler(async (req, res) => {
   }
 
   const product = await Product.create({
-    title: req.body.text,
-    description: req.body.description,
-    price: req.body.price,
-    user: req.user.id,
+    ...req.body,
+    // title: req.body.text,
+    // description: req.body.description,
+    // price: req.body.price,
+    // user: req.user.id,
   });
 
-  upload(req, res, (err) => {
-    if (err) {
-      return res.json({ success: false, err });
-    }
-    return res.json({
-      success: true,
-      image: res.req.file.path,
-      fileName: res.req.file.filename,
-    });
-  });
+  console.log(product);
+
+  //   upload(req, res, (err) => {
+  //     if (err) {
+  //       return res.json({ success: false, err });
+  //     }
+  //     return res.json({
+  //       success: true,
+  //       image: res.req.file.path,
+  //       fileName: res.req.file.filename,
+  //     });
+  //   });
 
   res.status(200).json(product);
 });
 
 // @desc    Update product
 // @route   PUT /api/products/:id
-// @access  Private
+// @access  Public
 const updateProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
 
@@ -129,6 +141,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
 module.exports = {
   getProducts,
+  getProduct,
   setProduct,
   updateProduct,
   deleteProduct,
