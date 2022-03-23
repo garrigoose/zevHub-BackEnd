@@ -2,6 +2,10 @@ const asyncHandler = require('express-async-handler');
 
 const Product = require('../models/productModel');
 const User = require('../models/userModel');
+
+const LocalStorage = require('node-localstorage').LocalStorage;
+localStorage = new LocalStorage('./scratch');
+
 const multer = require('multer');
 
 var storage = multer.diskStorage({
@@ -21,6 +25,7 @@ var storage = multer.diskStorage({
 });
 
 var upload = multer({ storage: storage }).single('file');
+
 // @description     Get products
 // @route/moethod   GET /api/products
 // @access          Private
@@ -34,7 +39,7 @@ const getProducts = asyncHandler(async (req, res) => {
 // @route   POST /api/products
 // @access  Private
 const setProduct = asyncHandler(async (req, res) => {
-  if (!req.body.text) {
+  if (!req.body) {
     res.status(400);
     throw new Error('Please add a text field');
   }
@@ -44,6 +49,17 @@ const setProduct = asyncHandler(async (req, res) => {
     description: req.body.description,
     price: req.body.price,
     user: req.user.id,
+  });
+
+  upload(req, res, (err) => {
+    if (err) {
+      return res.json({ success: false, err });
+    }
+    return res.json({
+      success: true,
+      image: res.req.file.path,
+      fileName: res.req.file.filename,
+    });
   });
 
   res.status(200).json(product);

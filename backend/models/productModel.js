@@ -9,11 +9,11 @@ const productSchema = mongoose.Schema(
     },
     title: {
       type: String,
-      required: [true, 'Please add a text value'],
+      required: [true, 'Please add a title value'],
     },
     description: {
       type: String,
-      required: [true, 'Please add a text value'],
+      required: [true, 'Please add a description value'],
     },
     price: {
       type: Number,

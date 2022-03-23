@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
+const LocalStorage = require('node-localstorage').LocalStorage;
+localStorage = new LocalStorage('./scratch');
 
 // @desc    Register new user
 // @route   POST /api/users
@@ -34,11 +36,13 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
+    let myToken = generateToken(user._id);
+    localStorage.setItem('token', myToken);
     res.status(201).json({
       _id: user.id,
       name: user.name,
       email: user.email,
-      token: generateToken(user._id),
+      token: myToken,
     });
   } else {
     res.status(400);
@@ -56,11 +60,13 @@ const loginUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user && (await bcrypt.compare(password, user.password))) {
+    let myToken = generateToken(user._id);
+    localStorage.setItem('token', myToken);
     res.json({
       _id: user.id,
       name: user.name,
       email: user.email,
-      token: generateToken(user._id),
+      token: myToken,
     });
   } else {
     res.status(400);
