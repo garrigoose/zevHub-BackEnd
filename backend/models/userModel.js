@@ -24,6 +24,9 @@ const userSchema = mongoose.Schema(
     purchases: {
       type: [String],
     },
+    messages: {
+      type: [String],
+    },
   },
   {
     timestamps: true,
