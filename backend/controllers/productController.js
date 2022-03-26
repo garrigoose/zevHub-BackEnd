@@ -32,7 +32,7 @@ const multer = require('multer');
 // @route/moethod   GET /api/products
 // @access          Private
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({ user: req.user.id });
+  const products = await Product.find({});
 
   res.status(200).json(products);
 });
@@ -54,13 +54,18 @@ const setProduct = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('Please add a text field');
   }
-
+  const user = req.body;
+  //   console.log(req.user);
+  const newProduct = { ...req.body, user };
   const product = await Product.create({
-    ...req.body,
-    // title: req.body.text,
-    // description: req.body.description,
-    // price: req.body.price,
-    // user: req.user.id,
+    // ...req.body
+    title: req.body.title,
+    description: req.body.description,
+    price: req.body.price,
+    brand: req.body.brand,
+    image: req.body.image,
+    rating: req.body.rating,
+    user: req.user.id,
   });
 
   console.log(product);

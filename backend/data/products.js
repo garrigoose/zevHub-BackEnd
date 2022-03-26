@@ -1,6 +1,6 @@
 const products = [
   {
-    name: 'eBike',
+    title: 'eBike',
     image:
       'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6464/6464325_sd.jpg',
     description:
@@ -11,10 +11,9 @@ const products = [
     countInStock: 0,
     rating: 0,
     numReviews: 0,
-    _id: 0,
   },
   {
-    name: 'Scooter',
+    title: 'Scooter',
     image:
       'https://media.wired.com/photos/623a1b8db1c15e50702785a2/master/w_2560%2Cc_limit/Apollo-City-hero-SOURCE-Apollo-Gear.jpg',
     description:
@@ -25,10 +24,9 @@ const products = [
     countInStock: 10,
     rating: 0,
     numReviews: 0,
-    _id: 1,
   },
   {
-    name: 'Skateboard',
+    title: 'Skateboard',
     image: 'https://www.geekmaxi.com/img/p/1/2/7/8/2/12782-large_default.jpg',
     description:
       'Characterized by versatile imaging specs, the Canon EOS 80D further clarifies itself using a pair of robust focusing systems and an intuitive design',
@@ -38,10 +36,9 @@ const products = [
     countInStock: 0,
     rating: 0,
     numReviews: 0,
-    _id: 2,
   },
   {
-    name: 'Jet Ski',
+    title: 'Jet Ski',
     image:
       'https://www.gannett-cdn.com/presto/2019/04/26/USAT/ffca5941-3816-4f3e-a247-99a1d7c41f61-nikola-wav-electric-pwc-7.jpg?auto=webp&crop=615,342,x0,y0&format=pjpg&width=1200',
     description:
@@ -52,10 +49,9 @@ const products = [
     countInStock: 10,
     rating: 0,
     numReviews: 0,
-    _id: 3,
   },
   {
-    name: 'Tesla',
+    title: 'Tesla',
     image:
       'https://electricwhip.com/wp-content/uploads/2020/01/custom-tesla-model-3-696x456.jpg',
     description:
@@ -66,10 +62,9 @@ const products = [
     countInStock: 7,
     rating: 2.5,
     numReviews: 4,
-    _id: 4,
   },
   {
-    name: 'Motorcycle',
+    title: 'Motorcycle',
     image:
       'https://electrek.co/wp-content/uploads/sites/3/2019/07/zero-fxs-header.jpg?quality=82&strip=all',
     description:
@@ -80,7 +75,6 @@ const products = [
     countInStock: 0,
     rating: 4.5,
     numReviews: 3,
-    _id: 5,
   },
 ];
 
