@@ -28,6 +28,7 @@ app.get('/products/:id', (req, res) => {
 
 app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/orders', require('./routes/orderRoutes'));
 
 // Server frontend
 if (process.env.NODE_ENV === 'production') {
