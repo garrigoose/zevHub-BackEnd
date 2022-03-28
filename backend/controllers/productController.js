@@ -28,22 +28,25 @@ const multer = require('multer');
 
 // var upload = multer({ storage: storage }).single('file');
 
-// @description     Get products
+// @description     Get multiple products
 // @route/moethod   GET /api/products
-// @access          Private
+// @access          Public
 const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({});
 
   res.status(200).json(products);
 });
 
-// @description     Get product
+// @description     Get one product
 // @route/moethod   GET /api/products/:id
-// @access          Private
+// @access          Public
 const getProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
-
-  res.status(200).json(product);
+  if (product) {
+    res.status(200).json(product);
+  } else {
+    res.status(404).json({ message: 'Product not found' });
+  }
 });
 
 // @desc    Set product

@@ -1,7 +1,7 @@
 const express = require('express');
 const colors = require('colors');
 const dotenv = require('dotenv').config();
-const { errorHandler } = require('./middleware/errorMiddleware');
+const { errorHandler, notFound } = require('./middleware/errorMiddleware');
 const products = require('./data/products');
 const Product = require('../backend/models/productModel');
 const connectDB = require('./config/db');
@@ -43,6 +43,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.use(errorHandler);
+app.use(notFound);
 
 app.listen(port, () =>
   console.log(`Server started on port ${port}`.rainbow.bold)
