@@ -28,6 +28,7 @@ const userSchema = mongoose.Schema(
     messages: {
       type: [String],
     },
+    isAdmin: { type: Boolean },
   },
   {
     timestamps: true,
