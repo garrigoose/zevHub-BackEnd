@@ -49,48 +49,53 @@ const getProductById = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Set product
+// @desc    Create product
 // @route   POST /api/products
 // @access  Private
 const setProduct = asyncHandler(async (req, res) => {
-  if (!req.body) {
-    res.status(400);
-    throw new Error('Please add a text field');
-  }
-  const user = req.body;
-  //   console.log(req.user);
-  const newProduct = { ...req.body, user };
-  const product = await Product.create({
-    // ...req.body
-    title: req.body.title,
-    description: req.body.description,
-    price: req.body.price,
-    brand: req.body.brand,
-    image: req.body.image,
-    rating: req.body.rating,
-    user: req.user.id,
-  });
-
-  console.log(product);
-
-  //   upload(req, res, (err) => {
-  //     if (err) {
-  //       return res.json({ success: false, err });
-  //     }
-  //     return res.json({
-  //       success: true,
-  //       image: res.req.file.path,
-  //       fileName: res.req.file.filename,
-  //     });
+  //   if (!req.body) {
+  //     res.status(400);
+  //     throw new Error('Please add a text field');
+  //   }
+  //   const newProduct = { ...req.body, user };
+  //   const newProduct = await Product.create({
+  //     // ...req.body
+  //     title: req.body.title,
+  //     description: req.body.description,
+  //     price: req.body.price,
+  //     brand: req.body.brand,
+  //     category: req.body.category,
+  //     image: req.body.image,
+  //     rating: req.body.rating,
+  //     user: req.user.id,
   //   });
 
-  res.status(200).json(product);
+  const product = new Product({
+    title: 'Sample name',
+    price: 0,
+    user: req.user._id,
+    image:
+      'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2322&q=80',
+    brand: 'Sample brand',
+    category: 'Sample category',
+    countInStock: 0,
+    numReviews: 0,
+    description: 'Sample description',
+  });
+  // try {
+  const createdProduct = await Product.create(product);
+  res.status(201).json(createdProduct);
+  // } catch (error) {
+  //   res.status(404).json(error);
+  // }
 });
 
 // @desc    Update product
 // @route   PUT /api/products/:id
 // @access  Public
 const updateProduct = asyncHandler(async (req, res) => {
+  const { title, price, description, image, brand, category, countInStock } =
+    req.body;
   const product = await Product.findById(req.params.id);
 
   if (!product) {
@@ -110,15 +115,19 @@ const updateProduct = asyncHandler(async (req, res) => {
     throw new Error('User not authorized');
   }
 
-  const updatedProduct = await Product.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    {
-      new: true,
-    }
-  );
-
-  res.status(200).json(updatedProduct);
+  if (product) {
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+      }
+    );
+    res.status(200).json(updatedProduct);
+  } else {
+    res.status(404);
+    throw new Error('Product not found');
+  }
 });
 
 // @desc    Delete product
