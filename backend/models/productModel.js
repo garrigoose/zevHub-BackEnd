@@ -35,6 +35,10 @@ const productSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    category: {
+      type: String,
+      default: 0,
+    },
     brand: {
       type: String,
       default: 0,

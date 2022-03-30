@@ -40,7 +40,7 @@ const getProducts = asyncHandler(async (req, res) => {
 // @description     Get one product
 // @route/moethod   GET /api/products/:id
 // @access          Public
-const getProduct = asyncHandler(async (req, res) => {
+const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (product) {
     res.status(200).json(product);
@@ -151,7 +151,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
 module.exports = {
   getProducts,
-  getProduct,
+  getProductById,
   setProduct,
   updateProduct,
   deleteProduct,
