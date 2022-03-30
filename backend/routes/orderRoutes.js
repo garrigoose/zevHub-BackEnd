@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const {
   addOrderItems,
-  getOrderTest,
+  getOrderById,
 } = require('../controllers/orderController');
 const { protect } = require('../middleware/authMiddleware');
 
-router.get('/', protect, addOrderItems);
+router.post('/', protect, addOrderItems);
 // router.route('/').post(protect, addOrderItems);
-// router.get('/', getOrderTest);
+router.get('/:id', protect, getOrderById);
 
 module.exports = router;
