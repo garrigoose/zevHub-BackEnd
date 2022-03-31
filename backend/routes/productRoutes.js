@@ -7,6 +7,7 @@ const {
   deleteProduct,
   getProductById,
   createProductReview,
+  searchProducts,
 } = require('../controllers/productController');
 
 const { protect } = require('../middleware/authMiddleware');
@@ -20,5 +21,6 @@ router
   .get(getProductById);
 
 router.post('/:id/reviews', protect, createProductReview);
+router.get('/search=:keyword', searchProducts);
 
 module.exports = router;

@@ -28,6 +28,45 @@ const multer = require('multer');
 
 // var upload = multer({ storage: storage }).single('file');
 
+// @description     Get multiple products by search criteria
+// @route/moethod   GET /api/products/search=:keyword
+// @access          Public
+const searchProducts = asyncHandler(async (req, res) => {
+  console.log('backend search function hit ');
+  console.log(req.params);
+  //   const keyword = req.query.keyword
+  //     ? {
+  //         name: {
+  //           $regex: req.query.keyword,
+  //           $options: 'i',
+  //         },
+  //       }
+  //     : {};
+  //   console.log(keyword);
+  try {
+    const products = await Product.find({});
+    console.log(products);
+
+    // const results = Product.find({
+    //   $or: [
+    //     { title: new RegExp(req.params.criteria, 'i') },
+    //     { tags: new RegExp(req.params.criteria, 'i') },
+    //   ],
+    // })
+    //   .collation({ locale: 'en_US' })
+    //   .then((recipes) => {
+    //     res.json(recipes);
+    //   });
+
+    // console.log(results);
+  } catch (err) {
+    console.log(err);
+  }
+
+  res.status(200).json(products);
+});
+// var upload = multer({ storage: storage }).single('file');
+
 // @description     Get multiple products
 // @route/moethod   GET /api/products
 // @access          Public
@@ -206,4 +245,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   createProductReview,
+  searchProducts,
 };
