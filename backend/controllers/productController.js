@@ -71,7 +71,13 @@ const searchProducts = asyncHandler(async (req, res) => {
 // @route/moethod   GET /api/products
 // @access          Public
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({});
+  const pageSize = 5;
+  const page = Number(req.query.pageNumber) || 1;
+
+  const count = await Product.count({});
+  const products = await Product.find({})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
 
   res.status(200).json(products);
 });
