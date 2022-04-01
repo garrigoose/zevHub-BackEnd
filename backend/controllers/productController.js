@@ -3,85 +3,30 @@ const asyncHandler = require('express-async-handler');
 const Product = require('../models/productModel');
 const User = require('../models/userModel');
 
-const LocalStorage = require('node-localstorage').LocalStorage;
-localStorage = new LocalStorage('./scratch');
-
-const multer = require('multer');
-
-// CLOUDINARY x REACT
-
-// var storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, 'uploads/');
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, `${Date.now()}_${file.originalname}`);
-//   },
-//   fileFilter: (req, file, cb) => {
-//     const ext = path.extname(file.originalname);
-//     if (ext !== '.jpg' || ext !== '.png') {
-//       return cb(res.status(400).end('only jpg, png are allowed'), false);
-//     }
-//     cb(null, true);
-//   },
-// });
-
-// var upload = multer({ storage: storage }).single('file');
-
 // @description     Get multiple products by search criteria
 // @route/moethod   GET /api/products/search=:keyword
 // @access          Public
 const searchProducts = asyncHandler(async (req, res) => {
-  console.log('backend search function hit ');
-  console.log(req.params);
-  //   const keyword = req.query.keyword
-  //     ? {
-  //         name: {
-  //           $regex: req.query.keyword,
-  //           $options: 'i',
-  //         },
-  //       }
-  //     : {};
-  //   console.log(keyword);
   try {
     const products = await Product.find({});
     console.log(products);
-
-    // const results = Product.find({
-    //   $or: [
-    //     { title: new RegExp(req.params.criteria, 'i') },
-    //     { tags: new RegExp(req.params.criteria, 'i') },
-    //   ],
-    // })
-    //   .collation({ locale: 'en_US' })
-    //   .then((recipes) => {
-    //     res.json(recipes);
-    //   });
-
-    // console.log(results);
   } catch (err) {
     console.log(err);
   }
 
   res.status(200).json(products);
 });
-// var upload = multer({ storage: storage }).single('file');
 
 // @description     Get multiple products
 // @route/moethod   GET /api/products
 // @access          Public
 const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = 5;
-  const page = Number(req.query.pageNumber) || 1;
-
-  const count = await Product.count({});
-  const products = await Product.find({})
-    .limit(pageSize)
-    .skip(pageSize * (page - 1));
-
-  //     res.json({ products, page, pages: Math.ceil(count / pageSize) })
-
-  res.status(200).json(products);
+  try {
+    const products = await Product.find({});
+    res.json(products);
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 // @description     Get one product
@@ -246,6 +191,19 @@ const createProductReview = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Get top rated products
+// @route   GET /api/products/top
+// @access  Public
+const getTopProducts = asyncHandler(async (req, res) => {
+  console.log('hit get top products controller');
+  try {
+    const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+    res.json(products);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 module.exports = {
   getProducts,
   getProductById,
@@ -254,4 +212,5 @@ module.exports = {
   deleteProduct,
   createProductReview,
   searchProducts,
+  getTopProducts,
 };

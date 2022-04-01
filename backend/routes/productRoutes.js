@@ -8,12 +8,14 @@ const {
   getProductById,
   createProductReview,
   searchProducts,
+  getTopProducts,
 } = require('../controllers/productController');
 
 const { protect } = require('../middleware/authMiddleware');
 
 router.route('/').get(getProducts).post(protect, setProduct);
 
+router.get('/top', getTopProducts);
 router
   .route('/:id')
   .delete(protect, deleteProduct)
