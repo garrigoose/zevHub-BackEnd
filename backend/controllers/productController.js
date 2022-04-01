@@ -79,6 +79,8 @@ const getProducts = asyncHandler(async (req, res) => {
     .limit(pageSize)
     .skip(pageSize * (page - 1));
 
+  //     res.json({ products, page, pages: Math.ceil(count / pageSize) })
+
   res.status(200).json(products);
 });
 

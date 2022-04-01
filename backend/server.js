@@ -21,17 +21,6 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// temporary seed data routes
-app.get('/products', (req, res) => {
-  res.json(products);
-});
-
-app.get('/products/:id', (req, res) => {
-  const product = products[req.params.id];
-  //   const product = products.find((p) => p._id === req.params.id);
-  res.json(product);
-});
-
 app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/orders', require('./routes/orderRoutes'));
@@ -50,11 +39,19 @@ if (process.env.NODE_ENV === 'production') {
 
   app.get('*', (req, res) =>
     res.sendFile(
-      path.resolve(__dirname, '../', 'frontend', 'build', 'index.html')
+      path.resolve(
+        __dirname,
+        '../../zevHub-FrontEnd',
+        'zevhub-frontend',
+        'public',
+        'index.html'
+      )
     )
   );
 } else {
-  app.get('/', (req, res) => res.send('Please set to production'));
+  app.get('/', (req, res) => {
+    res.send('API is running....');
+  });
 }
 
 app.use(errorHandler);
